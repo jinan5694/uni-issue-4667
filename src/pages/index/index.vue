@@ -1,8 +1,12 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
 		<view>
-			<text class="title">{{title}}</text>
+			列表数据使用 store 中的数据渲染，点击卡片可以跳转到详情页
+		</view>
+		<view class="card" v-for="item in todos" :key="item.id" @click="handleClick(item)">
+			<view>{{ item.id }}</view>
+			<view>{{ item.text }}</view>
+			<view>{{ item.done }}</view>
 		</view>
 	</view>
 </template>
@@ -11,14 +15,18 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Hello',
+				todos: this.$store.state.todos
 			}
 		},
-		onLoad() {
-
+		updated() {
+			console.log('list is updated');
 		},
+		
 		methods: {
-
+			handleClick({ id }) {
+				uni.navigateTo({ url: '/pages/index/detail?id=' + id })
+			}
 		}
 	}
 </script>
@@ -27,23 +35,12 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		justify-content: center;
 	}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin: 200rpx auto 50rpx auto;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+	.card {
+		border: 1px solid red;
+		margin: 20px;
+		padding: 20px;
 	}
 </style>
